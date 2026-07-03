@@ -18,8 +18,6 @@ Install dependencies:
 ```bash
 pip install -r requirements.txt
 
-# CIFI-YOLO
-
 ## 2. Dataset Preparation
 
 The experiments use three UAV-oriented object detection datasets:
