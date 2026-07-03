@@ -1,6 +1,11 @@
 
 # CIFI-YOLO
 
+
+This repository provides the anonymous supplementary materials for CIFI-YOLO. 
+`CIFI-YOLO-ano.zip` contains the source code, training/testing scripts, dependency file, and reproduction instructions. 
+`CIFI.pt` is the trained checkpoint used for direct evaluation.
+
 Official implementation of **CIFI-YOLO: A SWaP-Aware Object Detector for UAV Optical Sensors via Cross-Iterative Fusion and Gated Attention**.
 
 This repository provides the anonymized source code, model definitions, training scripts, testing scripts, configuration files, and reproduction instructions for the experimental results reported in the manuscript.
