@@ -1,3 +1,111 @@
 # CIFI-YOLO
 
-Official implementation of **CIFI-YOLO: A SWaP-Aware Object Detector for UAV Optical Sensors via Cross-Iterative Fusion and Gated Attention**. This repository provides the anonymized source code, model definitions, training scripts, testing scripts, configuration files, and reproduction instructions for the results reported in the manuscript. The code was tested with Python 3.8+, PyTorch 2.0.1, CUDA 11.x, and an NVIDIA RTX 3080 Ti GPU. To install the environment, clone this repository and run `pip install -r requirements.txt`. The experiments use VisDrone2019, UAV-DT, and CODrone datasets. Please organize each dataset in YOLO format with `images/train`, `images/val`, `images/test`, `labels/train`, `labels/val`, and `labels/test` folders, and update the dataset paths in `configs/datasets/visdrone.yaml`, `configs/datasets/uavdt.yaml`, and `configs/datasets/codrone.yaml`. All images are resized to `640 x 640` during training and inference. To train CIFI-YOLO, run `python train.py --model configs/models/cifi_yolo.yaml --data configs/datasets/visdrone.yaml --img 640 --epochs 200 --batch 4 --optimizer AdamW --lr 1e-4 --weight-decay 1e-4 --device 0`; replace the dataset yaml file with `uavdt.yaml` or `codrone.yaml` for UAV-DT and CODrone experiments. To evaluate a trained checkpoint, run `python test.py --weights weights/cifi_yolo.pt --data configs/datasets/codrone.yaml --img 640 --batch 4 --device 0`. To measure inference latency, run `python test.py --weights weights/cifi_yolo.pt --data configs/datasets/codrone.yaml --img 640 --batch 1 --device 0 --profile --amp False`; Automatic Mixed Precision is disabled during latency profiling. To perform inference on custom images, run `python detect.py --weights weights/cifi_yolo.pt --source examples/images --img 640 --device 0`. The pretrained checkpoint is provided as `weights/cifi_yolo.pt`; if the file is too large for GitHub, an external download link should be provided here. All baseline models were reproduced under the same experimental settings, including input resolution, training epochs, optimizer, batch size, and evaluation protocol. The main results of CIFI-YOLO are as follows: on VisDrone2019, it achieves 44.5 AP50, 25.0 APS, 0.55 F1-score, and 53.2 recall with 3.89M parameters, 30.4 GFLOPs, and 9.08 ms latency; on UAV-DT, it achieves 38.2 AP50, 19.9 APS, 0.50 F1-score, and 47.9 recall; on CODrone, it achieves 33.8 AP50, 17.0 APS, 0.47 F1-score, and 45.2 recall. If you use this code, please cite our paper: **CIFI-YOLO: A SWaP-Aware Object Detector for UAV Optical Sensors via Cross-Iterative Fusion and Gated Attention**.
+Official implementation of **CIFI-YOLO: A SWaP-Aware Object Detector for UAV Optical Sensors via Cross-Iterative Fusion and Gated Attention**.
+
+This repository provides the anonymized source code, model definitions, training scripts, testing scripts, configuration files, and reproduction instructions for the experimental results reported in the manuscript.
+
+## 1. Environment
+
+The code was tested with the following environment:
+
+- Python 3.8+
+- PyTorch 2.0.1
+- CUDA 11.x
+- NVIDIA RTX 3080 Ti GPU
+
+Install dependencies:
+
+```bash
+pip install -r requirements.txt
+
+
+## 2. Dataset Preparation
+
+The experiments use three UAV-oriented object detection datasets:
+VisDrone2019
+UAV-DT
+CODrone
+Please organize each dataset in YOLO format:
+
+datasets/
+├── VisDrone2019/
+│   ├── images/
+│   │   ├── train/
+│   │   ├── val/
+│   │   └── test/
+│   └── labels/
+│       ├── train/
+│       ├── val/
+│       └── test/
+├── UAV-DT/
+└── CODrone/
+
+configs/datasets/visdrone.yaml
+configs/datasets/uavdt.yaml
+configs/datasets/codrone.yaml
+
+## 3. raining
+
+Train CIFI-YOLO on VisDrone2019:
+
+python train.py --model configs/models/cifi_yolo.yaml --data configs/datasets/visdrone.yaml --img 640 --epochs 200 --batch 4 --optimizer AdamW --lr 1e-4 --weight-decay 1e-4 --device 0
+
+Train on UAV-DT:
+
+python train.py --model configs/models/cifi_yolo.yaml --data configs/datasets/uavdt.yaml --img 640 --epochs 200 --batch 4 --optimizer AdamW --lr 1e-4 --weight-decay 1e-4 --device 0
+
+Train on CODrone:
+
+python train.py --model configs/models/cifi_yolo.yaml --data configs/datasets/codrone.yaml --img 640 --epochs 200 --batch 4 --optimizer AdamW --lr 1e-4 --weight-decay 1e-4 --device 0
+
+## 4. Evaluation
+Evaluate a trained checkpoint:
+
+python test.py --weights weights/cifi_yolo.pt --data configs/datasets/codrone.yaml --img 640 --batch 4 --device 0
+
+Measure inference latency:
+
+python test.py --weights weights/cifi_yolo.pt --data configs/datasets/codrone.yaml --img 640 --batch 1 --device 0 --profile --amp False
+
+## 5. Inference
+
+Run inference on custom images:
+
+python detect.py --weights weights/cifi_yolo.pt --source examples/images --img 640 --device 0
+
+## 6. Main Results
+
+All baseline models were reproduced under the same experimental settings, including input resolution, training epochs, optimizer, batch size, and evaluation protocol.
+
+| Dataset | Params | GFLOPs | Latency | AP50 | APS | F1-score | Recall |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| VisDrone2019 | 3.89M | 30.4 | 9.08 ms | 44.5 | 25.0 | 0.55 | 53.2 |
+| UAV-DT | 3.89M | 30.4 | 9.08 ms | 38.2 | 19.9 | 0.50 | 47.9 |
+| CODrone | 3.89M | 30.4 | 9.08 ms | 33.8 | 17.0 | 0.47 | 45.2 |
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
