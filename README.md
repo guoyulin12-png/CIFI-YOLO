@@ -18,15 +18,19 @@ Install dependencies:
 
 ```bash
 pip install -r requirements.txt
+```
 
 ## 2. Dataset Preparation
 
 The experiments use three UAV-oriented object detection datasets:
-VisDrone2019
-UAV-DT
-CODrone
+
+- VisDrone2019
+- UAV-DT
+- CODrone
+
 Please organize each dataset in YOLO format:
 
+```text
 datasets/
 ├── VisDrone2019/
 │   ├── images/
@@ -39,39 +43,57 @@ datasets/
 │       └── test/
 ├── UAV-DT/
 └── CODrone/
+```
 
+Dataset configuration files are provided in:
+
+```text
 configs/datasets/visdrone.yaml
 configs/datasets/uavdt.yaml
 configs/datasets/codrone.yaml
+```
 
-## 3. raining
+## 3. Training
 
 Train CIFI-YOLO on VisDrone2019:
 
+```bash
 python train.py --model configs/models/cifi_yolo.yaml --data configs/datasets/visdrone.yaml --img 640 --epochs 200 --batch 4 --optimizer AdamW --lr 1e-4 --weight-decay 1e-4 --device 0
+```
 
 Train on UAV-DT:
 
+```bash
 python train.py --model configs/models/cifi_yolo.yaml --data configs/datasets/uavdt.yaml --img 640 --epochs 200 --batch 4 --optimizer AdamW --lr 1e-4 --weight-decay 1e-4 --device 0
+```
 
 Train on CODrone:
 
+```bash
 python train.py --model configs/models/cifi_yolo.yaml --data configs/datasets/codrone.yaml --img 640 --epochs 200 --batch 4 --optimizer AdamW --lr 1e-4 --weight-decay 1e-4 --device 0
+```
 
 ## 4. Evaluation
+
 Evaluate a trained checkpoint:
 
+```bash
 python test.py --weights weights/cifi_yolo.pt --data configs/datasets/codrone.yaml --img 640 --batch 4 --device 0
+```
 
 Measure inference latency:
 
+```bash
 python test.py --weights weights/cifi_yolo.pt --data configs/datasets/codrone.yaml --img 640 --batch 1 --device 0 --profile --amp False
+```
 
 ## 5. Inference
 
 Run inference on custom images:
 
+```bash
 python detect.py --weights weights/cifi_yolo.pt --source examples/images --img 640 --device 0
+```
 
 ## 6. Main Results
 
@@ -82,30 +104,4 @@ All baseline models were reproduced under the same experimental settings, includ
 | VisDrone2019 | 3.89M | 30.4 | 9.08 ms | 44.5 | 25.0 | 0.55 | 53.2 |
 | UAV-DT | 3.89M | 30.4 | 9.08 ms | 38.2 | 19.9 | 0.50 | 47.9 |
 | CODrone | 3.89M | 30.4 | 9.08 ms | 33.8 | 17.0 | 0.47 | 45.2 |
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+````
