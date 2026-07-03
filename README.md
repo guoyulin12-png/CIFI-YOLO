@@ -1,3 +1,4 @@
+````markdown
 # CIFI-YOLO
 
 Official implementation of **CIFI-YOLO: A SWaP-Aware Object Detector for UAV Optical Sensors via Cross-Iterative Fusion and Gated Attention**.
